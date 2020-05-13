@@ -7,7 +7,7 @@ const ModalProvider = (props) => {
 
     //State del provider
     const [idreceta, setIdReceta] = useState(null);
-    const [receta, setReceta] = useState({});
+    const [inforeceta, setReceta] = useState({});
 
     //Una vez que tenemos el id de la recer, lamo al API 
     useEffect(() => {
@@ -18,7 +18,7 @@ const ModalProvider = (props) => {
 
             const resultado = await axios.get(url)
 
-            console.log(resultado.data.drinks[0])
+            setReceta(resultado.data.drinks[0])
         }
         obtenerReceta();
     }, [idreceta])
@@ -26,7 +26,9 @@ const ModalProvider = (props) => {
     return (
         <ModalContext.Provider
             value={{
-                setIdReceta
+                inforeceta,
+                setIdReceta,
+                setReceta
             }}
         >
             {props.children}
