@@ -1,7 +1,46 @@
 import React, { useContext, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
+import { ModalConsumer } from '../context/ModalContext';
 
+
+function getModalStyle() {
+    const top = 50;
+    const left = 50;
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
+
+const useStyles = makeStyles(theme => ({
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
 const Receta = ({ receta }) => {
+
+    //configuración del modal de material UI
+    const [modalStyle] = useState(getModalStyle)
+    //Cuando abra el modal
+    const [open, setOpen] = useState(false)
+
+    const classes = useStyles();
+
+    const handleOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
 
     const { setIdReceta } = useContext(ModalContext);
 
@@ -17,14 +56,26 @@ const Receta = ({ receta }) => {
                         type="button"
                         className="btn btn-block btn-primary"
                         onClick={() => {
-                            setIdReceta(receta.idDrink)
+                            setIdReceta(receta.idDrink);
+                            handleOpen();
                         }}
                     >
                         Ver Receta
                     </button>
+                    <Modal
+                        open={open}
+                        onClose={() => {
+                            setIdReceta(null)
+                            handleClose()
+                        }}
+                    >
+                        <div style={modalStyle} className={classes.paper}>
+                            <h1>DesdeModal</h1>
+                        </div>
+                    </Modal>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
