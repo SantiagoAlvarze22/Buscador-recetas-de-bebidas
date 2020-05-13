@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { CategoriasContext } from '../context/CategoriasContext';
 import { RecetasContext } from '../context/RecetasContext';
+import Error from './Error';
 
 const Formulario = () => {
 
@@ -12,6 +13,10 @@ const Formulario = () => {
         categoria: ''
     })
 
+    const [error, setError] = useState(false)
+
+    const { nombre, categoria } = busqueda;
+
     const obtenerDatosReceta = e => {
         setGuardarBusqueda({
             ...busqueda,
@@ -19,16 +24,26 @@ const Formulario = () => {
         })
     }
 
+    const cargarFormulario = e => {
+        e.preventDefault();
+
+        //Verificar formulario 
+        if (nombre === '' || categoria === '') {
+            setError(true)
+            return;
+        }
+        setError(false)
+
+        setBuscarReceta(busqueda)
+        setConsultar(true)
+    }
+
     return (
         <form
             className="col-12"
-            onSubmit={e => {
-                e.preventDefault();
-                setBuscarReceta(busqueda)
-                setConsultar(true)
-            }
-            }
+            onSubmit={e => cargarFormulario(e)}
         >
+            {error ? <Error mensaje="Todos los campos son obligatorios" /> : null}
             <fieldset className="text-center">
                 <legend>Bebidas por Categoria o Ingrediente</legend>
             </fieldset>

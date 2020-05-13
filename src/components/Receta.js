@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 
 
@@ -51,7 +52,7 @@ const Receta = ({ receta }) => {
         for (let i = 1; i < 16; i++) {
             if (inforeceta[`strIngredient${i}`]) {
                 ingredientes.push(
-                    <li>{inforeceta[`strIngredient${i}`]} {inforeceta[`strMeasure${i}`]}</li>
+                    <li key={i + 1}>{inforeceta[`strIngredient${i}`]} {inforeceta[`strMeasure${i}`]}</li>
                 )
             }
         }
@@ -103,5 +104,11 @@ const Receta = ({ receta }) => {
         </div >
     );
 }
+
+
+Receta.propTypes = {
+    receta: PropTypes.object.isRequired
+}
+
 
 export default Receta;

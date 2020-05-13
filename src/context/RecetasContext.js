@@ -13,6 +13,8 @@ const RecetasProvider = (props) => {
 
     const { nombre, categoria } = buscarReceta;
 
+
+
     useEffect(() => {
         if (consultar) {
             const obtenerRecetas = async () => {
@@ -25,7 +27,7 @@ const RecetasProvider = (props) => {
             obtenerRecetas();
         }
 
-    }, [buscarReceta])
+    }, [nombre, categoria, consultar])
 
     return (
         <RecetasContext.Provider
